@@ -17,6 +17,7 @@ jobs:
           sudo apt-get install curl
           curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
           export PATH=$PATH:/root/.poetry/bin
+          source $HOME/.poetry/env
           poetry install
           poetry build
           echo "🍏 This job's status is ${{ job.status }}."
