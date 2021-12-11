@@ -19,8 +19,11 @@ jobs:
           source $HOME/.poetry/env
           poetry install --no-interaction
           poetry build
-
           echo "🍏 This job's status is ${{ job.status }}."
+      - name: List dist files
+        run: |
+          ls ${{ github.workspace }}/dist
+          
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
