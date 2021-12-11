@@ -22,8 +22,10 @@ jobs:
           echo "🍏 This job's status is ${{ job.status }}."
       - name: List dist files
         run: |
-          ls ${{ github.workspace }}/dist
-
+          ARTIFACT_PATHNAME=$(ls ${{ github.workspace }}/dist/*.whl | head -n 1)
+          ARTIFACT_NAME=$(basename $ARTIFACT_PATHNAME)
+          echo ::set-env name=ARTIFACT_NAME::${ARTIFACT_NAME}
+          echo ::set-env name=ARTIFACT_PATHNAME::${ARTIFACT_PATHNAME}
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
@@ -42,8 +44,9 @@ jobs:
         uses: actions/upload-release-asset@v1.0.1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
-          asset_path:  ${{ github.workspace }}/dist/*.whl
-          asset_name: dist.whl
+          asset_path:  ${{ env.ARTIFACT_PATHNAME }}
+          asset_name: ${{ env.ARTIFACT_NAME }}
           asset_content_type: application/zip
