@@ -2,10 +2,12 @@ name: Build using poetry
 on:
   push:
     branches:
-      - 'master'
+      - "master"
 jobs:
   build-application-actions:
     runs-on: ubuntu-latest
+    env:
+      DEBIAN_FRONTEND: noninteractive
     steps:
       - run: sudo apt update && apt upgrade
       - run: sudo apt install curl
@@ -17,5 +19,3 @@ jobs:
           poetry install
           poetry build
       - run: echo "🍏 This job's status is ${{ job.status }}."
-
-  
