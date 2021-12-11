@@ -15,10 +15,11 @@ jobs:
       - run: |
           sudo apt-get install curl
           curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
-          export PATH=$PATH:/root/.poetry/bin
+          export PATH=$PATH:$HOME/.poetry/bin
           source $HOME/.poetry/env
-          poetry install
+          poetry install --no-interaction
           poetry build
+
           echo "🍏 This job's status is ${{ job.status }}."
       - name: Create Release
         id: create_release
@@ -26,6 +27,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
         with:
+          asset_path: ./dist
+          asset_name: ${{ github.repository }}
           tag_name: ${{ github.ref }}
           release_name: Release ${{ github.ref }}
           body: |
