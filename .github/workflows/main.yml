@@ -1,0 +1,4 @@
+- name: Docker python poetry
+  # You may pin to the exact commit or the version.
+  # uses: dkorzhov/actions-poetry@2c4107c98855a844e5647e436e74b40f8496bedb
+  uses: dkorzhov/actions-poetry@1.0
