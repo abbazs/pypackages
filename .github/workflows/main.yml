@@ -8,12 +8,11 @@ jobs:
     runs-on: ubuntu-latest
     env:
       DEBIAN_FRONTEND: noninteractive
+      DEBCONF_NONINTERACTIVE_SEEN: true
     steps:
       - name: Check out repository code
         uses: actions/checkout@v2
       - run: |
-          sudo apt-get update 
-          sudo apt-get upgrade
           sudo apt-get install curl
           curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
           export PATH=$PATH:/root/.poetry/bin
@@ -21,3 +20,16 @@ jobs:
           poetry install
           poetry build
           echo "🍏 This job's status is ${{ job.status }}."
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          body: |
+            Changes in this Release
+            - Need to automate relase content
+          draft: false
+          prerelease: false
