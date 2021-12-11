@@ -9,7 +9,7 @@ jobs:
     env:
       DEBIAN_FRONTEND: noninteractive
     steps:
-      - run: sudo apt update && apt upgrade
+      - run: sudo apt-get update && sudo apt-get upgrade
       - run: sudo apt install curl
       - run: curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
       - name: Check out repository code
