@@ -5,17 +5,17 @@ on:
       - 'master'
 jobs:
   build-application-actions:
-  runs-on: ubuntu-latest
-  steps:
-    - run: apt update && apt upgrade
-    - run: apt install curl
-    - run: curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
-    - name: Check out repository code
-      uses: actions/checkout@v2
-    - name: Poetry process
-      run: |
-        poetry install
-        poetry build
-    - run: echo "🍏 This job's status is ${{ job.status }}."
+    runs-on: ubuntu-latest
+    steps:
+      - run: apt update && apt upgrade
+      - run: apt install curl
+      - run: curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
+      - name: Check out repository code
+        uses: actions/checkout@v2
+      - name: Poetry process
+        run: |
+          poetry install
+          poetry build
+      - run: echo "🍏 This job's status is ${{ job.status }}."
 
   
